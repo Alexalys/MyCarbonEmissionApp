@@ -17,7 +17,7 @@ source env/bin/activate
 pip install -r /path/to/requirements.txt
 
 
-*** Windows version***
+***Windows version***
 
 1) Install python 3 from the oficcial site
 2) Install wireshark
