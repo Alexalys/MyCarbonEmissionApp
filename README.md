@@ -1,5 +1,7 @@
-**************************MyCarbonEmissionApp ver. 4.0*******************************************************
+**MyCarbonEmissionApp ver. 4.0**
+
 ---------------------------------Installation----------------------------------------------
+
 ***Unix version***
 
 1) Install python 3 from the oficcial site
@@ -30,6 +32,7 @@ pip install -r /path/to/requirements.txt
 
 
 -------------------------------------------Launch the program-------------------------------------
+
 All the steps must be done as a root user or as administrator
 
 1) In the virtualenv run
