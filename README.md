@@ -36,7 +36,9 @@ pip install -r /path/to/requirements.txt
 All the steps must be done as a root user or as administrator
 
 1) In the virtualenv run
+
 python3 main.py // In Unix
+
 python main.py //In Windows
 2) At the first stage you'll have to enter all the credentials of the user.
 3) After it, the capture is started
