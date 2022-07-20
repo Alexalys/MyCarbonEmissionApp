@@ -159,8 +159,10 @@ def info_netstat():
 
     for element_indx in range(0, len(filtered_array)):
         result_array = []
-        if ('LISTENING' or 'ESTABLISHED' or 'UDP') in filtered_array[element_indx]:
+        #variants = ['LISTENING', 'ESTABLISHED', 'UDP']
+        if ('LISTENING' in filtered_array[element_indx]) or ('ESTABLISHED' in filtered_array[element_indx]) or ('UDP' in filtered_array[element_indx]):
             try:
+                #print(filtered_array[element_indx])
                 if filtered_array[element_indx + 1][0].startswith('['):
                     app_name = filtered_array[element_indx + 1][0]
                     result_array.append(app_name.rstrip(']').lstrip('['))
@@ -181,7 +183,7 @@ def info_netstat():
             result_array.append(filtered_array[element_indx][2])
             result_array.append(filtered_array[element_indx][1])
             final_array.append(result_array)
-
+    #print(final_array)
     return final_array
 
 
@@ -213,7 +215,7 @@ def analyse_getDnsQueries(tab, userIpAddr):
                 if ipAddr not in dnsTable:
                     dnsTable.append(ipAddr)
                     final.append({'QueryName': ipAddr, 'IPAddress': ipAddr})
-
+    #print(final)
     for j in range(len(final)):
         listOfFramesIn = []
         listOfFramesOut = []
@@ -244,18 +246,20 @@ def analyse_getDnsQueries(tab, userIpAddr):
                     except:
                         ipdst = line[8][0].split("]:")
                         appsList.append([line[0],ipdst[0][1:],""])
-        else:  # Solution for non-Windows versions
+        else:  # Solution for Windows versions
             info_array = info_netstat()
-            appsList.append(info_array)
+            appsList = info_array
 
         for l in range(len(tab)):
             if tab[l][4] == final[j]['IPAddress'] or tab[l][6] == final[j]['IPAddress']:
                 listOfFramesIn.append(tab[l][0])
             if tab[l][5] == final[j]['IPAddress'] or tab[l][7] == final[j]['IPAddress']:
                 listOfFramesOut.append(tab[l][0])
-        
-        for p in range(len(appsList)):  
-            if appsList[p][1] == final[j]['IPAddress'] or appsList[p][2] == final[j]['IPAddress']:
+        #print(final)
+        for p in range(len(appsList)):
+            #print('app', appsList[p])
+            #print('final', final[j]['IPAddress'])
+            if appsList[p][1].startswith(final[j]['IPAddress']) or appsList[p][2].startswith(final[j]['IPAddress']):
                 if appsList[p][0] == "x-www-bro":
                     application = "browser" 
                 else: 

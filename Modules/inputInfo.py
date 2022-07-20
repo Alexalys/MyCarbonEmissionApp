@@ -56,7 +56,8 @@ def get_interface_name():
         int_name = os.popen("route get 8.8.8.8 | grep interface | cut -f2 -d':' ").read()
     elif sys.platform == "win32":
         int_addr, metrics = windows_interface_ip_metrics()
-        int_name = windows_interface_name(metrics)
+        #int_name = windows_interface_name(metrics)
+        int_name = windows_interface_name_2(int_addr)
     int_name = int_name.replace('\n','')
     return int_name
 
@@ -109,6 +110,21 @@ def windows_interface_ip_metrics():
     return result_gateway, metrics
 
 
+def windows_interface_name_2(ip):
+    result_int = ''
+    lines = os.popen('ipconfig').readlines()
+    for line in lines:
+        if ip in line:
+            new_lines = lines[lines.index(line) - 4].split(' ')
+            for indx in range(len(new_lines) - 1, 0, -1):
+                if new_lines[indx][0].isupper():
+                    correct_int = new_lines[indx:len(new_lines)]
+                    result_int = ' '.join(correct_int)
+                    break
+
+    return result_int[0:-2]
+
+
 def windows_interface_name(metrics):
     """
     Get used interface name in Windows depending on the metrics,
@@ -123,7 +139,8 @@ def windows_interface_name(metrics):
 
                 for status in line:
                     if status.endswith('connected'):
-                        interface_name = ' '.join(line[line.index(status)+1:len(line)])
+                        print(interface_name)
+                        interface_name = ' '.join(line[line.index(status)+1:-1])
                         interface_name = interface_name.replace('\n','')
                 """
                 Get ID instead of name
@@ -133,3 +150,6 @@ def windows_interface_name(metrics):
             continue
 
     return interface_name
+
+
+

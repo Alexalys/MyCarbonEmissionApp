@@ -32,9 +32,11 @@ def autoCapture(CaptureFolder, interface):
     # For tests changed from 3600 to 60
     try:
         print("\n Capturing... \n ")
-        os.system('tshark -Q -i %s -a duration:3600 -s 96 -n -w %s ' % (interface, CaptureFolder + saveFileAs))
-    except KeyboardInterrupt:
-        pass
+
+        os.system('tshark -Q -i \"%s\" -a duration:3600 -s 96 -n -w %s ' % (interface, CaptureFolder + saveFileAs))
+    except Exception as e:
+        if e.__class__ == 'KeyboardInterrupt':
+            pass
 
     if sys.platform == 'win32':
         os.system('ping -n XXX 127.0.0.1 >nul')
